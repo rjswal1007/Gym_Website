@@ -1,0 +1,133 @@
+<section class="hero" [style.--img]="'url(' + photos.hero + ')'">
+  <div class="wrap hero-in">
+    <span class="eyebrow">Greater Noida · Unisex fitness club</span>
+    <h1>Train like it's<br /><em>your calling.</em></h1>
+    <p>
+      Premium equipment, elite coaches and a space designed to make every rep count. Welcome to
+      Pulse8.
+    </p>
+    <div class="actions">
+      <a routerLink="/join" class="btn btn-gold">Start your membership</a>
+      <a routerLink="/" fragment="facilities" class="btn btn-ghost">Explore facilities</a>
+    </div>
+  </div>
+  <div class="scroll" aria-hidden="true"><i></i></div>
+</section>
+
+<section class="stats">
+  <div class="wrap grid">
+    @for (s of stats; track s.l; let i = $index) {
+      <div [reveal]="i * 0.1">
+        <strong>{{ s.n }}</strong
+        ><span>{{ s.l }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<section class="section" id="facilities">
+  <div class="wrap">
+    <div class="center" reveal>
+      <span class="eyebrow">Facilities</span>
+      <h2 class="title">Every discipline, <em>one address</em></h2>
+      <p class="lead">From heavy iron to mindful flow — pick the way you want to move.</p>
+    </div>
+    <div class="fac">
+      @for (f of facilities; track f.id; let i = $index) {
+        <article class="card" [id]="f.id" [reveal]="(i % 2) * 0.12">
+          <img [src]="f.photo" [alt]="f.name" loading="lazy" width="700" height="520" />
+          <div class="shade"></div>
+          <div class="body">
+            <span class="tag">{{ f.tag }}</span>
+            <h3>{{ f.name }}</h3>
+            <p>{{ f.blurb }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section why">
+  <div class="wrap split">
+    <div reveal>
+      <span class="eyebrow">Why Pulse8</span>
+      <h2 class="title">Built on <em>results</em>, not routines</h2>
+      <p class="lead">
+        Backed by proven fitness training modules and a decade of helping members get stronger,
+        leaner and happier.
+      </p>
+      <a routerLink="/about" class="btn btn-ghost" style="margin-top: 32px">Our story</a>
+    </div>
+    <ul>
+      @for (r of reasons; track r.t; let i = $index) {
+        <li [reveal]="i * 0.12">
+          <span class="num">0{{ i + 1 }}</span>
+          <div>
+            <h3>{{ r.t }}</h3>
+            <p>{{ r.d }}</p>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section plans" id="plans">
+  <div class="wrap">
+    <div class="center" reveal>
+      <span class="eyebrow">Membership</span>
+      <h2 class="title">Choose your <em>plan</em></h2>
+      <p class="lead">Annual memberships, inclusive of all taxes and charges.</p>
+    </div>
+    <div class="plan-grid">
+      @for (p of plans; track p.id; let i = $index) {
+        <article class="plan" [class.featured]="p.featured" [reveal]="i * 0.08">
+          @if (p.featured) {
+            <span class="badge">Most popular</span>
+          }
+          <h3>{{ p.name }}</h3>
+          <div class="price">
+            <small>₹</small>{{ p.price.toLocaleString('en-IN') }}<span>/ year</span>
+          </div>
+          <ul>
+            @for (f of p.features; track f) {
+              <li>{{ f }}</li>
+            }
+          </ul>
+          <a
+            routerLink="/join"
+            [queryParams]="{ plan: p.id }"
+            class="btn"
+            [class.btn-gold]="p.featured"
+            [class.btn-ghost]="!p.featured"
+            >Select {{ p.name }}</a
+          >
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section" id="timetable">
+  <div class="wrap"><app-timetable /></div>
+</section>
+
+<section class="section" style="padding-top: 0">
+  <div class="wrap"><app-bmi /></div>
+</section>
+
+<section class="section why" id="faq">
+  <div class="wrap"><app-faq /></div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap"><app-contact /></div>
+</section>
+
+<section class="cta" [style.--img]="'url(' + photos.ropes + ')'">
+  <div class="wrap center" reveal>
+    <h2 class="title">Your first step is <em>the hardest.</em><br />We'll take it with you.</h2>
+    <a routerLink="/join" class="btn btn-gold" style="margin-top: 36px">Join Pulse8 today</a>
+  </div>
+</section>

@@ -1,0 +1,145 @@
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">Membership</span>
+    <h1>Begin your <em>journey</em></h1>
+    <p>Tell us a little about yourself and our team will reach out to complete your enrolment.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap layout">
+    @if (submitted()) {
+      <div class="done" reveal>
+        <div class="check">✓</div>
+        <h2 class="title">
+          Welcome to <em>Pulse8</em>, {{ form.controls.name.value.split(' ')[0] }}.
+        </h2>
+        <p class="lead">
+          We've received your {{ selected().name }} membership request. Our team will call you on
+          {{ form.controls.phone.value }} to confirm and arrange payment at the front desk.
+        </p>
+        <button
+          class="btn btn-ghost"
+          (click)="submitted.set(false); form.reset({ plan: selected().id })"
+        >
+          Submit another
+        </button>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate reveal>
+        <h2>Your details</h2>
+        <div class="row">
+          <label class="f" [class.bad]="invalid('name')"
+            >Full name
+            <input formControlName="name" autocomplete="name" placeholder="Sandeep Sharma" />
+            @if (invalid('name')) {
+              <em>Please enter your name.</em>
+            }
+          </label>
+          <fieldset class="f" [class.bad]="invalid('gender')">
+            <legend>Gender</legend>
+            <div class="radios">
+              @for (g of ['Male', 'Female', 'Other']; track g) {
+                <label class="radio"
+                  ><input type="radio" formControlName="gender" [value]="g" /><span>{{
+                    g
+                  }}</span></label
+                >
+              }
+            </div>
+            @if (invalid('gender')) {
+              <em>Please choose one.</em>
+            }
+          </fieldset>
+        </div>
+        <div class="row">
+          <label class="f" [class.bad]="invalid('email')"
+            >Email
+            <input
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+            />
+            @if (invalid('email')) {
+              <em>Enter a valid email address.</em>
+            }
+          </label>
+          <label class="f" [class.bad]="invalid('phone')"
+            >Contact number
+            <input
+              type="tel"
+              formControlName="phone"
+              autocomplete="tel"
+              placeholder="+919876543210"
+            />
+            @if (invalid('phone')) {
+              <em>Enter a valid 10-digit Indian mobile number.</em>
+            }
+          </label>
+        </div>
+        <label class="f" [class.bad]="invalid('address')"
+          >Address
+          <textarea
+            formControlName="address"
+            rows="3"
+            autocomplete="street-address"
+            placeholder="Street 8, Sector 33, Greater Noida, UP"
+          ></textarea>
+          @if (invalid('address')) {
+            <em>Please enter your address.</em>
+          }
+        </label>
+        <div class="row">
+          <label class="f" [class.bad]="invalid('pincode')"
+            >Pincode
+            <input
+              formControlName="pincode"
+              inputmode="numeric"
+              maxlength="6"
+              autocomplete="postal-code"
+              placeholder="201310"
+            />
+            @if (invalid('pincode')) {
+              <em>Enter a 6-digit pincode.</em>
+            }
+          </label>
+          <label class="f"
+            >Membership type
+            <select formControlName="plan">
+              @for (p of plans; track p.id) {
+                <option [value]="p.id">
+                  {{ p.name }} — ₹{{ p.price.toLocaleString('en-IN') }}/year
+                </option>
+              }
+            </select>
+          </label>
+        </div>
+        <label class="check-row" [class.bad]="invalid('agree')">
+          <input type="checkbox" formControlName="agree" />
+          <span>I agree to be contacted by Pulse8 about my membership.</span>
+        </label>
+        <button class="btn btn-gold" type="submit">Request membership</button>
+      </form>
+
+      <aside reveal=".15">
+        <span class="eyebrow">Your plan</span>
+        <h3>{{ selected().name }}</h3>
+        <div class="price">
+          <small>₹</small>{{ selected().price.toLocaleString('en-IN')
+          }}<span>/ year · incl. all taxes</span>
+        </div>
+        <ul>
+          @for (f of selected().features; track f) {
+            <li>{{ f }}</li>
+          }
+        </ul>
+        <div class="help">
+          <p>Questions? Talk to us.</p>
+          <a [href]="'tel:' + contact.phones[0]">{{ contact.phones[0] }}</a>
+          <a [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+        </div>
+      </aside>
+    }
+  </div>
+</section>
